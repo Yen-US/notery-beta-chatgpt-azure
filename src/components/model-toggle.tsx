@@ -27,7 +27,8 @@ export interface ModelToggleProps {
 
 export function ModelToggle({ model, setModel, session }: ModelToggleProps) {
   const modelsOptions = [
-    { label: "GPT 4o mini", value: "gpt-4o-mini" }
+    { label: "GPT 4o mini", value: "gpt-4o-mini" },
+    { label: "Dall-E 3", value: "dall-e-3" }
 
   ];
   

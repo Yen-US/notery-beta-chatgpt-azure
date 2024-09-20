@@ -15,17 +15,21 @@ export const runtime = 'edge'
 
 
 // Required Azure OpenAI deployment name and API version
-const deploymentName = "gpt-4o-mini"; //This must match your deployment name.
 const endpoint = process.env.AZURE_OPENAI_ENDPOINT
-const apiKey = process.env.AZURE_OPENAI_API_KEY
-const apiVersion = "2024-02-15-preview";
 
-function getClient(): AzureOpenAI {
+const apiKey = process.env.AZURE_OPENAI_API_KEY
+
+const deploymentNameText = "gpt-4o-mini"; //This must match your deployment name.
+const apiVersionText = "2024-02-15-preview";
+const deploymentNameImage = "dall-e-3"; //This must match your deployment name.
+const apiVersionImage = "2024-02-01";
+
+function getClient(apiVersion:string, deployment:string): AzureOpenAI {
   return new AzureOpenAI({
     endpoint,
     apiKey,
     apiVersion,
-    deployment: deploymentName,
+    deployment
   });
 }
 
@@ -50,19 +54,23 @@ export async function POST(req: Request) {
   let response
 
   if (modelVersion === 'dall-e-3' || modelVersion === 'dall-e-2') {
-    response = await openai.images.generate({
-      model: modelVersion,
+    
+    const client = getClient(apiVersionImage,deploymentNameImage);
+    response = await client.images.generate({
+      model: "dall-e-2",
       prompt: messages[1].content,
       n: 1,
       size: imageSize,
+      style: "vivid", // or "natural");
     });
+    
 
     const image =  `![imageGenerated](${response.data[0].url})`
 
     return new Response(image)
   }else{
     
-    const client = getClient();
+    const client = getClient(apiVersionText, deploymentNameText);
     const params: ChatCompletionCreateParamsStreaming = {
       model: modelVersion,
       messages,

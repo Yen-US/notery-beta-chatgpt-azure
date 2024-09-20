@@ -23,9 +23,10 @@ export default function NavBar({model, setModel, session, size, setSize, classNa
     return (
         <nav className={className}>
             <div className="flex items-center gap-2">
-            <h1 className="text-xl">Notery</h1>
+            <h1 className="text-xl">Azure Notery</h1>
             <Badge variant="outline"> simple chat </Badge>
-            <Badge variant="outline"> v1.1 </Badge>
+            <Badge variant="outline"> image generation </Badge>
+            <Badge variant="outline"> v1.0 </Badge>
             </div>
             <div className="flex align-center gap-2">
             <SupportButton />
